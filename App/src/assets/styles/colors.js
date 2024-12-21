@@ -7,5 +7,6 @@ export const colors = {
     text: '#333333',
     button: '#4CAF50',
     white: '#FFF',
-    black: '#000'
+    black: '#000',
+    overlay: 'rgba(0, 0, 0, 0.5)'
 };
