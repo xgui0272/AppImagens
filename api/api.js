@@ -55,7 +55,6 @@ sequelize
 
 //Confiração da rotas
 app.use('/', router);
-
 //Criação do servidor HTTP`
 const server = http.createServer(app);
 
