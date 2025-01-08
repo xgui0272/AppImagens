@@ -20,7 +20,7 @@ async function uploadFileToBlob(filePath, originalName) {
       }
     });
 
-    return `https://${BlobServiceClientInstance.accountName}.blob.core.windows.net/${containerName}/${uniqueNameBlob}`;
+    return {link: `https://${BlobServiceClientInstance.accountName}.blob.core.windows.net/${containerName}/${uniqueNameBlob}`, name: uniqueNameBlob};
 
   } catch (error) {
     console.log('Ouve um error ao fazer o upload do arquivo para o AzureBlobStorage!');

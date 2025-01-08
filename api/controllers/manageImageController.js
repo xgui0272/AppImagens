@@ -2,6 +2,9 @@
 const {uploadFileToBlob} = require('../services/blobService');
 const {downloadImage, deleteImageTemp} = require('../services/downloadImage')
 
+//Models
+const {imagens} = require('../models/')
+
 
 /*
 Controller para fazer o upload da imagem enviada direto do client
@@ -13,7 +16,8 @@ exports.uploadImageLocal = async (req, res) => {
             res.status(400).json({message: 'Nenhum arquivo foi enviado'});
         }
         const blobUrl = await uploadFileToBlob(file.path, file.originalname);
-        res.status(200).json({url: blobUrl});
+        const query = await imagens.create({imgName: blobUrl.name, imgLink: blobUrl.link, category: 1})
+        res.status(200).json({message: 'Imagem salva com sucesso'});
     } catch (error) {
         console.log('Error ao fazer upload de imagem');
     }
@@ -27,8 +31,8 @@ exports.uploadImageFromLink = async (req, res) => {
     try {
         const downImage = await downloadImage(req.body.url);
         const blobUrl = await uploadFileToBlob(downImage.filePath, downImage.originalName);
-        deleteImageTemp(downImage.filePath);
-        res.status(200).json({message: 'sucesso'})
+        const query = await imagens.create({imgName: blobUrl.name, imgLink: blobUrl.link, category: 1})
+        res.status(200).json({message: 'Imagem salva com sucesso'})
     } catch (error) {
         console.log('Error ao fazer upload de imagem')
     }
