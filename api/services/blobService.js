@@ -16,18 +16,30 @@ async function uploadFileToBlob(filePath, originalName) {
 
     fs.unlink(filePath, (err) => {
       if (err) {
-        console.error('Error ao deletar o arquivo:')
+        console.error('Error ao deletar o arquivo temporario');
       }
     });
 
     return {link: `https://${BlobServiceClientInstance.accountName}.blob.core.windows.net/${containerName}/${uniqueNameBlob}`, name: uniqueNameBlob};
 
   } catch (error) {
-    console.log('Ouve um error ao fazer o upload do arquivo para o AzureBlobStorage!');
-    console.log(error)
+    console.erro('Ouve um error ao fazer o upload do arquivo para o AzureBlobStorage!', error);
+  }
+}
+
+async function deleteFileToBlob(id) {
+  try {
+    const containerClient = BlobServiceClientInstance.getContainerClient(containerName);
+    const blockBlobClient = containerClient.getBlockBlobClient(id);
+    const deleteResponse = await blockBlobClient.delete();
+
+
+  } catch (error) {
+    console.error('Error ao delete imagem do Blob!', error);
   }
 }
 
 module.exports = {
-  uploadFileToBlob
+  uploadFileToBlob,
+  deleteFileToBlob
 }

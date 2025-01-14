@@ -6,17 +6,17 @@ import styles from './CategorieButton.styles';
 
 import { useNavigation } from '@react-navigation/native';
 
-const CategorieButton = ({ name, img, onPress }) => {
+const CategorieButton = ({ name, img, categoryId }) => {
   const navigation = useNavigation();
-
+  
   return (
     <TouchableWithoutFeedback
       onPress={() => {
         // Navega para a tela "Categorie" passando os dados
-        navigation.navigate('CategorieStack', {name});
+        navigation.navigate('CategorieStack', {name, categoryId});
         
         // Executa o callback adicional, se necessário
-        if (onPress) onPress();
+        
       }}
     >
       <View style={styles.container}>

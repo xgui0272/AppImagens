@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import { colors } from '../../assets/styles/colors';
+//import { colors } from '../../assets/styles/colors';
 
 
 
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         zIndex: 1
     },
     tumbImgContainer: {
-        backgroundColor: colors.primary,
+        //backgroundColor: colors.primary,
         borderRadius: 8,
         flex: 1,
         height: 100,
