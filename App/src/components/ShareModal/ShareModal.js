@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Share from 'react-native-share';
 import RNSF from 'react-native-fs';
 
-const ShareModal = ({modalVisible, setModalVisible}) => {
+const ShareModal = ({modalVisible, setModalVisible, linkImg}) => {
 
     const shareImage = async () => {
         try {
@@ -22,7 +22,7 @@ const ShareModal = ({modalVisible, setModalVisible}) => {
 
             //Função para baixar a imagem
             const downloadResult = await RNSF.downloadFile({
-                fromUrl: 'https://cdn.awsli.com.br/800x800/1231/1231330/produto/236296656/sub695554---kauan---retangular-feliz-natal-peq-sqosbbj484.jpg',
+                fromUrl: linkImg,
                 toFile: localPath
             }).promise;
 
@@ -46,7 +46,7 @@ const ShareModal = ({modalVisible, setModalVisible}) => {
         }
     }
 
-
+  
     const shareImageApps = async (app) => {
         try {
             //Caminho temporario da imagem
@@ -54,7 +54,7 @@ const ShareModal = ({modalVisible, setModalVisible}) => {
 
             //Função para baixar a imagem
             const downloadResult = await RNSF.downloadFile({
-                fromUrl: 'https://cdn.awsli.com.br/800x800/1231/1231330/produto/236296656/sub695554---kauan---retangular-feliz-natal-peq-sqosbbj484.jpg',
+                fromUrl: linkImg,
                 toFile: localPath
             }).promise;
 
@@ -70,7 +70,7 @@ const ShareModal = ({modalVisible, setModalVisible}) => {
                 //Remover imagem 
                 setTimeout(async () => {
                     await RNSF.unlink(localPath)
-                }, 60000)
+                }, 10000)
             } else {
                 console.error("Error ao baixar a imagem:", downloadResult);
             }
@@ -84,7 +84,7 @@ const ShareModal = ({modalVisible, setModalVisible}) => {
 
   return (
         <Modal
-            animationType='slide'
+            animationType='fade'
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => {

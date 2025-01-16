@@ -2,7 +2,7 @@ import React, {useLayoutEffect, useState} from 'react'
 import {API_URL} from '@env';
 
 //Components
-import { SafeAreaView, FlatList, View, Image, TouchableWithoutFeedback } from 'react-native'
+import { SafeAreaView, FlatList, View, Image, TouchableWithoutFeedback} from 'react-native'
 
 //Hooks
 import { useNavigation } from '@react-navigation/native'; 
@@ -40,28 +40,24 @@ const Categorie = ({route}) => {
   }
 
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        // Navega para a tela "Categorie" passando os dados
-        navigation.navigate('ImageSliderStack', {screen: 'ImageSlider'});
-        
-    
-      }}
-    >
+
       <SafeAreaView style={styles.container}>
         <FlatList
           contentContainerStyle={styles.body}
           data={data}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.tumbImgContainer}>
-              <Image source={{ uri: item.imgLink }} style={styles.img}/>
-            </View>
+          renderItem={({ item, index }) => (
+            <TouchableWithoutFeedback onPress={() => navigation.navigate('ImageSliderStack', {data: {images: data, currentIndex: index}})}>
+              <View style={styles.tumbImgContainer}>
+                <Image source={{ uri: item.imgLink }} style={styles.img}/>
+              </View>
+            </TouchableWithoutFeedback>
+
           )}
           numColumns={2} // Define o número de colunas
         />
       </SafeAreaView>
-    </TouchableWithoutFeedback>
+    
 
   )
 }

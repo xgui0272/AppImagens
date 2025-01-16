@@ -16,18 +16,26 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
 
-export const Image = () => {
-
-    //States
+export const Image = ({route}) => {
+    
+    const {data} = route.params
     const [modalVisible, setModalVisible] = useState(false);
+    
+    /*
+    State para o componente filho "ImageSlider" mandar devolda
+    qual index da imagem atual para ser enviada para o componente
+    responsavel de baixar a imagem
+    */
+    const [currentIndexSlider, setCurrentIndexSlider] = useState(data.currentIndex);
 
+    
 
 
 
   return (
     <SafeAreaView style={styles.container}>
         <View style={styles.containerImage}>
-            <ImageSlider/>
+            <ImageSlider data={data} setCurrentIndexSlider={setCurrentIndexSlider}/>
             <TouchableOpacity style={styles.containerShareButton} onPress={() => {
                 setModalVisible(!modalVisible)
             }}>
@@ -35,7 +43,7 @@ export const Image = () => {
                 <FontAwesome name='share-alt' color='white' size={25}/>
             </TouchableOpacity>
         </View>
-        <ShareModal modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+        <ShareModal modalVisible={modalVisible} setModalVisible={setModalVisible} linkImg={data.images[currentIndexSlider].imgLink}/>
 
 
     </SafeAreaView>

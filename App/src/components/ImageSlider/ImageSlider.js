@@ -1,4 +1,4 @@
-import React,{useState, useRef} from 'react';
+import React,{useState, useRef, useEffect} from 'react';
 import { SafeAreaView, FlatList, View, Image, Dimensions, TouchableOpacity } from 'react-native';
 
 
@@ -11,33 +11,31 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 //Estilos
 import styles from './ImageSlider.styles'
 
-const images = [
-    {
-      id: '1',
-      uri: 'https://cdn.awsli.com.br/800x800/1231/1231330/produto/236296656/sub695554---kauan---retangular-feliz-natal-peq-sqosbbj484.jpg',
-    },
-    {
-      id: '2',
-      uri: 'https://static.vecteezy.com/ti/vetor-gratis/p1/6326651-tropical-praia-sundown-horizonte-paisagem-vetor.jpg',
-    },
-    {
-      id: '3',
-      uri: 'https://cdn.pixabay.com/photo/2020/07/09/01/09/landscape-5385552_1280.jpg',
-    },
-];
 
-const ImageSlider = () => {
+
+const ImageSlider = ({data, setCurrentIndexSlider}) => {
 
     //States
-    const [currentIndex, setCurrentIndex] = useState(2);
+    const [currentIndex, setCurrentIndex] = useState(data.currentIndex);
 
     //Refs
     const flatListRef = useRef(null);
+    
+    useEffect(() => {
+        flatListRef.current.scrollToIndex({index: currentIndex});
+    }, [])
+
+    const getItemLayout = (data, index) => ({
+        length: width,   // Largura do item
+        offset: width * index,  // Deslocamento baseado no índice
+        index,  // Índice do item
+    });
 
     //Função para mudar para proxima imagem atraves da flexa
     const goToNextImage = () => {
-        if(currentIndex < images.length -1) {
+        if(currentIndex < data.images.length -1) {
             setCurrentIndex(currentIndex + 1);
+            setCurrentIndexSlider(currentIndex + 1);
             flatListRef.current.scrollToIndex({index: currentIndex + 1});
             
         }
@@ -46,7 +44,9 @@ const ImageSlider = () => {
     const goToPreviusImage = () => {
         if(currentIndex > 0) {
             setCurrentIndex(currentIndex -1);
+            setCurrentIndexSlider(currentIndex -1);
             flatListRef.current.scrollToIndex({index: currentIndex -1 });
+            
         }
     };
 
@@ -61,14 +61,16 @@ const ImageSlider = () => {
             ref={flatListRef}
             showsHorizontalScrollIndicator={false}
             scrowT
+            scrollEnabled={false}
             pagingEnabled
             horizontal
-            data={images}
+            data={data.images}
             keyExtractor={(item) => item.id}
             scrollToIndex
+            getItemLayout={getItemLayout}
             renderItem={({item}) =>(
                 <View style={styles.imageContainer(width)}>
-                    <Image source={{uri: item.uri}} style={styles.image}/>
+                    <Image source={{uri: item.imgLink}} style={styles.image}/>
                 </View>
             )}
         />
